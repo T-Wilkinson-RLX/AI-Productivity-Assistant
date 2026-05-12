@@ -32,14 +32,18 @@ function Dashboard() {
     const el = scrollerRef.current;
     const track = trackRef.current;
     if (!el || !track) return;
-    const child = track.children[index] as HTMLElement | undefined;
-    if (child) {
-      el.scrollTo({ left: child.offsetLeft - track.offsetLeft, behavior: "smooth" });
-    }
+    const clamped = Math.min(Math.max(index, 0), track.children.length - 1);
+    const child = track.children[clamped] as HTMLElement | undefined;
+    if (!child) return;
+    const childRect = child.getBoundingClientRect();
+    const scrollerRect = el.getBoundingClientRect();
+    const delta = childRect.left - scrollerRect.left;
+    el.scrollTo({ left: el.scrollLeft + delta, behavior: "smooth" });
+    setActivePage(clamped);
   };
 
   const scrollByDir = (dir: 1 | -1) => {
-    scrollToIndex(Math.min(Math.max(activePage + dir, 0), totalPages - 1));
+    scrollToIndex(activePage + dir);
   };
 
   useEffect(() => {
@@ -48,12 +52,12 @@ function Dashboard() {
     if (!el || !track) return;
     const onScroll = () => {
       const children = Array.from(track.children) as HTMLElement[];
-      const center = el.scrollLeft + el.clientWidth / 2;
+      const scrollerRect = el.getBoundingClientRect();
+      const refX = scrollerRect.left + 8;
       let closest = 0;
       let min = Infinity;
       children.forEach((c, i) => {
-        const cc = (c.offsetLeft - track.offsetLeft) + c.clientWidth / 2;
-        const d = Math.abs(cc - center);
+        const d = Math.abs(c.getBoundingClientRect().left - refX);
         if (d < min) { min = d; closest = i; }
       });
       setActivePage(closest);
