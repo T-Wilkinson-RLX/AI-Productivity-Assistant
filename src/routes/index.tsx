@@ -47,11 +47,39 @@ function Dashboard() {
         </div>
       </section>
 
+      <section className="mt-8">
+        <div className="mb-4 flex items-end justify-between">
+          <div>
+            <h2 className="font-display text-xl font-semibold">Productivity impact</h2>
+            <p className="text-sm text-muted-foreground">How teams using the AI Workplace Suite are improving.</p>
+          </div>
+          <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Last 30 days</span>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((s) => (
+            <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-5">
+              <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-gold opacity-10 blur-2xl" />
+              <div className="flex items-center justify-between">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-gold text-background shadow-glow">
+                  <s.icon className="h-4 w-4" />
+                </div>
+                <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent">
+                  {s.delta}
+                </span>
+              </div>
+              <div className="mt-4 text-3xl font-bold tracking-tight text-gradient-gold">{s.value}</div>
+              <div className="mt-1 text-sm font-medium text-foreground">{s.label}</div>
+              <div className="text-xs text-muted-foreground">{s.hint}</div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((t) => (
           <Link key={t.url} to={t.url} className="group">
             <Card className="h-full border-border/60 bg-card/60 p-5 transition hover:border-accent/60 hover:shadow-glow">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-brand-soft text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-gold text-background">
                 <t.icon className="h-5 w-5" />
               </div>
               <h3 className="mt-4 font-display text-lg font-semibold">{t.title}</h3>
