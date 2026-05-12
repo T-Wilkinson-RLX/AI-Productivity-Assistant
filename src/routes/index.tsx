@@ -144,7 +144,7 @@ function Dashboard() {
               type="button"
               aria-label="Next tool"
               onClick={() => scrollByDir(1)}
-              disabled={activePage === totalPages - 1}
+              disabled={activePage === pageCount - 1}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:border-accent/60 hover:bg-card disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronRight className="h-4 w-4" />
@@ -177,7 +177,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="mt-3 flex justify-center gap-1.5">
-          {Array.from({ length: totalPages }).map((_, i) => (
+          {Array.from({ length: pageCount }).map((_, i) => (
             <button
               key={i}
               type="button"
