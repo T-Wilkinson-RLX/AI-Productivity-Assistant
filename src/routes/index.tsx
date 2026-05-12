@@ -48,13 +48,6 @@ function Dashboard() {
       </section>
 
       <section className="mt-8">
-        <div className="mb-4 flex items-end justify-between">
-          <div>
-            <h2 className="font-display text-xl font-semibold">Productivity impact</h2>
-            <p className="text-sm text-muted-foreground">How teams using the AI Workplace Suite are improving.</p>
-          </div>
-          <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Last 30 days</span>
-        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
             <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-5">
@@ -75,7 +68,14 @@ function Dashboard() {
         </div>
       </section>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="mt-8">
+        <div className="mb-4 flex items-end justify-between">
+          <div>
+            <h2 className="font-display text-xl font-semibold">Productivity tools</h2>
+            <p className="text-sm text-muted-foreground">Pick a tool to start automating your workflow.</p>
+          </div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((t) => (
           <Link key={t.url} to={t.url} className="group">
             <Card className="h-full border-border/60 bg-card/60 p-5 transition hover:border-accent/60 hover:shadow-glow">
