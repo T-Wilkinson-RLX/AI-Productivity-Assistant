@@ -14,6 +14,13 @@ const tools = [
   { title: "AI Chatbot", desc: "Your interactive workplace assistant for any quick question.", url: "/chat", icon: MessageSquare },
 ];
 
+const stats = [
+  { label: "Hours saved per week", value: "12.4", delta: "+38%", icon: Clock, hint: "vs. manual workflows" },
+  { label: "Tasks automated", value: "1,284", delta: "+22%", icon: Zap, hint: "this month" },
+  { label: "Faster email drafting", value: "5.7×", delta: "+470%", icon: TrendingUp, hint: "avg. across teams" },
+  { label: "Meeting follow-ups closed", value: "96%", delta: "+14%", icon: CheckCircle2, hint: "within 24h" },
+];
+
 function Dashboard() {
   return (
     <div className="mx-auto max-w-6xl">
