@@ -124,11 +124,11 @@ function Dashboard() {
         </div>
       </section>
 
-      <section className="mt-8">
-        <div className="mb-4 flex items-end justify-between gap-4">
-          <div>
-            <h2 className="font-display text-xl font-semibold">Productivity tools</h2>
-            <p className="text-sm text-muted-foreground">Swipe or use the arrows to explore.</p>
+      <section className="mt-6 sm:mt-8">
+        <div className="mb-4 flex items-end justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="font-display text-lg font-semibold sm:text-xl">Productivity tools</h2>
+            <p className="hidden text-sm text-muted-foreground sm:block">Swipe or use the arrows to explore.</p>
           </div>
           <div className="flex items-center gap-2">
             <button
