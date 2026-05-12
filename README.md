@@ -1,12 +1,5 @@
 Project Overview
-You are required to design and build ONE AI-powered productivity application that helps automate workplace tasks using AI tools such as ChatGPT and Lovable AI.
- 
-The goal is to demonstrate:
-Practical AI implementation
-Strong prompt engineering
-Real-world problem solving
-Responsible AI usage
-Modern UI/UX design
-Important Clarification
-This is ONE integrated project, not multiple projects.
-Your solution should function as a single platform/dashboard containing multiple AI-powered features.
+
+In today’s digital economy, organizations are rapidly adopting Artificial Intelligence to improve efficiency, automate repetitive tasks, and enhance decision-making.
+This project challenges you to design and develop an AI-powered Productivity Assistant that solves real-world workplace problems using modern AI tools.
+The solution should demonstrate the ability to apply AI effectively, design high-quality prompts, and use AI responsibly, all critical skills required in today’s job market.
