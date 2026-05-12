@@ -106,14 +106,33 @@ function Dashboard() {
       </section>
 
       <section className="mt-8">
-        <div className="mb-4 flex items-end justify-between">
+        <div className="mb-4 flex items-end justify-between gap-4">
           <div>
             <h2 className="font-display text-xl font-semibold">Productivity tools</h2>
-            <p className="text-sm text-muted-foreground">Swipe to explore — pick a tool to get started.</p>
+            <p className="text-sm text-muted-foreground">Swipe or use the arrows to explore.</p>
           </div>
-          <span className="hidden text-xs uppercase tracking-[0.2em] text-muted-foreground sm:inline">Scroll →</span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label="Previous tool"
+              onClick={() => scrollByDir(-1)}
+              disabled={activePage === 0}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:border-accent/60 hover:bg-card disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              aria-label="Next tool"
+              onClick={() => scrollByDir(1)}
+              disabled={activePage === totalPages - 1}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:border-accent/60 hover:bg-card disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
-        <div className="-mx-2 overflow-x-auto pb-3 [scrollbar-width:thin]">
+        <div ref={scrollerRef} className="-mx-2 overflow-x-auto pb-3 [scrollbar-width:thin] scroll-smooth">
           <div className="flex snap-x snap-mandatory gap-4 px-2">
             {tools.map((t) => (
               <Link key={t.url} to={t.url} className="group snap-start shrink-0 w-[260px] sm:w-[280px]">
@@ -137,6 +156,19 @@ function Dashboard() {
               </p>
             </Card>
           </div>
+        </div>
+        <div className="mt-3 flex justify-center gap-1.5">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => scrollToIndex(i)}
+              className={`h-1.5 rounded-full transition-all ${
+                i === activePage ? "w-6 bg-gradient-gold" : "w-1.5 bg-border hover:bg-muted-foreground/60"
+              }`}
+            />
+          ))}
         </div>
       </section>
     </div>
