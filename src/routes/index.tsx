@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2 } from "lucide-react";
+import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -22,6 +23,42 @@ const stats = [
 ];
 
 function Dashboard() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const totalPages = tools.length + 1; // tools + Responsible AI card
+  const [activePage, setActivePage] = useState(0);
+
+  const scrollToIndex = (index: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const child = el.children[index] as HTMLElement | undefined;
+    if (child) {
+      el.scrollTo({ left: child.offsetLeft - el.offsetLeft, behavior: "smooth" });
+    }
+  };
+
+  const scrollByDir = (dir: 1 | -1) => {
+    scrollToIndex(Math.min(Math.max(activePage + dir, 0), totalPages - 1));
+  };
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const children = Array.from(el.children) as HTMLElement[];
+      const center = el.scrollLeft + el.clientWidth / 2;
+      let closest = 0;
+      let min = Infinity;
+      children.forEach((c, i) => {
+        const cc = c.offsetLeft - el.offsetLeft + c.clientWidth / 2;
+        const d = Math.abs(cc - center);
+        if (d < min) { min = d; closest = i; }
+      });
+      setActivePage(closest);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <div className="mx-auto max-w-6xl">
       <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-8 shadow-elegant">
@@ -69,14 +106,33 @@ function Dashboard() {
       </section>
 
       <section className="mt-8">
-        <div className="mb-4 flex items-end justify-between">
+        <div className="mb-4 flex items-end justify-between gap-4">
           <div>
             <h2 className="font-display text-xl font-semibold">Productivity tools</h2>
-            <p className="text-sm text-muted-foreground">Swipe to explore — pick a tool to get started.</p>
+            <p className="text-sm text-muted-foreground">Swipe or use the arrows to explore.</p>
           </div>
-          <span className="hidden text-xs uppercase tracking-[0.2em] text-muted-foreground sm:inline">Scroll →</span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label="Previous tool"
+              onClick={() => scrollByDir(-1)}
+              disabled={activePage === 0}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:border-accent/60 hover:bg-card disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              aria-label="Next tool"
+              onClick={() => scrollByDir(1)}
+              disabled={activePage === totalPages - 1}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:border-accent/60 hover:bg-card disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
-        <div className="-mx-2 overflow-x-auto pb-3 [scrollbar-width:thin]">
+        <div ref={scrollerRef} className="-mx-2 overflow-x-auto pb-3 [scrollbar-width:thin] scroll-smooth">
           <div className="flex snap-x snap-mandatory gap-4 px-2">
             {tools.map((t) => (
               <Link key={t.url} to={t.url} className="group snap-start shrink-0 w-[260px] sm:w-[280px]">
@@ -100,6 +156,19 @@ function Dashboard() {
               </p>
             </Card>
           </div>
+        </div>
+        <div className="mt-3 flex justify-center gap-1.5">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => scrollToIndex(i)}
+              className={`h-1.5 rounded-full transition-all ${
+                i === activePage ? "w-6 bg-gradient-gold" : "w-1.5 bg-border hover:bg-muted-foreground/60"
+              }`}
+            />
+          ))}
         </div>
       </section>
     </div>

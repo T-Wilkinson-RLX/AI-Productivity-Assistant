@@ -43,15 +43,15 @@
 :root {
   --radius: 0.75rem;
 
-  /* Dark gray base */
-  --background: oklch(0.18 0.003 80);
+  /* Lighter gray base */
+  --background: oklch(0.26 0.003 80);
   --foreground: oklch(0.98 0.003 80);
 
-  /* Surface lighter dark gray */
-  --card: oklch(0.23 0.003 80);
+  /* Surface lighter gray */
+  --card: oklch(0.31 0.003 80);
   --card-foreground: oklch(0.98 0.003 80);
 
-  --popover: oklch(0.23 0.003 80);
+  --popover: oklch(0.31 0.003 80);
   --popover-foreground: oklch(0.98 0.003 80);
 
   /* Primary = gold */
@@ -62,27 +62,27 @@
   --accent: oklch(0.92 0.08 90);
   --accent-foreground: oklch(0.18 0.003 80);
 
-  --secondary: oklch(0.26 0.003 80);
+  --secondary: oklch(0.34 0.003 80);
   --secondary-foreground: oklch(0.98 0.003 80);
 
-  --muted: oklch(0.24 0.003 80);
-  --muted-foreground: oklch(0.7 0.005 60);
+  --muted: oklch(0.32 0.003 80);
+  --muted-foreground: oklch(0.74 0.005 60);
 
   --destructive: oklch(0.6 0.22 25);
   --destructive-foreground: oklch(0.99 0.01 0);
 
-  --border: oklch(0.3 0.003 80);
-  --input: oklch(0.26 0.003 80);
+  --border: oklch(0.4 0.003 80);
+  --input: oklch(0.34 0.003 80);
   --ring: oklch(0.78 0.16 85);
 
-  /* Sidebar - deeper dark gray with gold accents */
-  --sidebar: oklch(0.15 0.003 80);
+  /* Sidebar - matches main background */
+  --sidebar: oklch(0.26 0.003 80);
   --sidebar-foreground: oklch(0.96 0.003 80);
   --sidebar-primary: oklch(0.78 0.16 85);
   --sidebar-primary-foreground: oklch(0.18 0.003 80);
-  --sidebar-accent: oklch(0.24 0.003 80);
+  --sidebar-accent: oklch(0.34 0.003 80);
   --sidebar-accent-foreground: oklch(0.98 0.003 80);
-  --sidebar-border: oklch(0.28 0.003 80);
+  --sidebar-border: oklch(0.38 0.003 80);
   --sidebar-ring: oklch(0.78 0.16 85);
 
   /* Brand gradients - rich gradient gold */
@@ -92,11 +92,11 @@
   --gradient-radial-purple: radial-gradient(circle at 20% 20%, oklch(0.78 0.16 85 / 0.22), transparent 60%);
   --gradient-radial-red: radial-gradient(circle at 80% 80%, oklch(0.92 0.08 90 / 0.16), transparent 60%);
   --shadow-glow: 0 10px 40px -10px oklch(0.78 0.16 85 / 0.5);
-  --shadow-elegant: 0 8px 30px -8px oklch(0.05 0 0 / 0.7);
+  --shadow-elegant: 0 8px 30px -8px oklch(0.05 0 0 / 0.5);
 }
 
 .dark {
-  --background: oklch(0.18 0.003 80);
+  --background: oklch(0.26 0.003 80);
   --foreground: oklch(0.98 0.003 80);
 }
 
@@ -109,9 +109,9 @@
     font-family: var(--font-sans);
     background-color: var(--color-background);
     background-image:
-      radial-gradient(ellipse at top left, oklch(0.28 0.004 80) 0%, transparent 55%),
-      radial-gradient(ellipse at bottom right, oklch(0.22 0.004 80) 0%, transparent 55%),
-      linear-gradient(160deg, oklch(0.22 0.003 80) 0%, oklch(0.14 0.003 80) 60%, oklch(0.18 0.003 80) 100%);
+      radial-gradient(ellipse at top left, oklch(0.36 0.004 80) 0%, transparent 55%),
+      radial-gradient(ellipse at bottom right, oklch(0.3 0.004 80) 0%, transparent 55%),
+      linear-gradient(160deg, oklch(0.3 0.003 80) 0%, oklch(0.22 0.003 80) 60%, oklch(0.26 0.003 80) 100%);
     background-attachment: fixed;
   }
   h1, h2, h3, h4 {
@@ -141,30 +141,30 @@
   .sidebar-bg-art {
     background:
       /* dot grid pattern */
-      radial-gradient(oklch(0.95 0.003 80 / 0.05) 1px, transparent 1px),
+      radial-gradient(oklch(0.98 0.003 80 / 0.05) 1px, transparent 1px),
       /* diagonal line pattern */
       repeating-linear-gradient(
         135deg,
-        oklch(0.95 0.003 80 / 0.025) 0px,
-        oklch(0.95 0.003 80 / 0.025) 1px,
+        oklch(0.98 0.003 80 / 0.025) 0px,
+        oklch(0.98 0.003 80 / 0.025) 1px,
         transparent 1px,
         transparent 14px
       ),
-      radial-gradient(circle at 15% 10%, oklch(0.32 0.003 80 / 0.7), transparent 60%),
-      radial-gradient(circle at 90% 85%, oklch(0.22 0.003 80 / 0.7), transparent 60%),
-      linear-gradient(160deg, oklch(0.22 0.003 80) 0%, oklch(0.13 0.003 80) 100%);
+      radial-gradient(circle at 15% 10%, oklch(0.36 0.004 80 / 0.7), transparent 60%),
+      radial-gradient(circle at 90% 85%, oklch(0.3 0.004 80 / 0.7), transparent 60%),
+      linear-gradient(160deg, oklch(0.3 0.003 80) 0%, oklch(0.22 0.003 80) 60%, oklch(0.26 0.003 80) 100%);
     background-size: 18px 18px, auto, auto, auto, auto;
   }
   .sidebar-edge-glow {
     box-shadow:
-      inset -1px 0 0 oklch(0.95 0.003 80 / 0.08),
-      4px 0 24px -8px oklch(0 0 0 / 0.55),
-      8px 0 40px -12px oklch(0 0 0 / 0.4);
+      inset -1px 0 0 oklch(0.98 0.003 80 / 0.08),
+      4px 0 24px -8px oklch(0 0 0 / 0.4),
+      8px 0 40px -12px oklch(0 0 0 / 0.25);
   }
   .app-bg-art {
     background:
-      radial-gradient(ellipse at 90% -10%, oklch(0.3 0.003 80) 0%, transparent 55%),
-      radial-gradient(ellipse at -10% 110%, oklch(0.26 0.003 80) 0%, transparent 55%),
-      linear-gradient(160deg, oklch(0.22 0.003 80) 0%, oklch(0.14 0.003 80) 60%, oklch(0.18 0.003 80) 100%);
+      radial-gradient(ellipse at 90% -10%, oklch(0.36 0.004 80) 0%, transparent 55%),
+      radial-gradient(ellipse at -10% 110%, oklch(0.3 0.004 80) 0%, transparent 55%),
+      linear-gradient(160deg, oklch(0.3 0.003 80) 0%, oklch(0.22 0.003 80) 60%, oklch(0.26 0.003 80) 100%);
   }
 }
