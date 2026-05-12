@@ -126,10 +126,27 @@
   .shadow-elegant { box-shadow: var(--shadow-elegant); }
   .sidebar-bg-art {
     background:
+      /* dot grid pattern */
+      radial-gradient(oklch(0.95 0.01 300 / 0.07) 1px, transparent 1px),
+      /* diagonal line pattern */
+      repeating-linear-gradient(
+        135deg,
+        oklch(0.95 0.01 300 / 0.025) 0px,
+        oklch(0.95 0.01 300 / 0.025) 1px,
+        transparent 1px,
+        transparent 14px
+      ),
       radial-gradient(circle at 15% 10%, oklch(0.45 0.2 300 / 0.45), transparent 55%),
       radial-gradient(circle at 90% 85%, oklch(0.6 0.24 15 / 0.35), transparent 55%),
       radial-gradient(circle at 50% 50%, oklch(0.3 0.1 295 / 0.4), transparent 70%),
       var(--sidebar);
+    background-size: 18px 18px, auto, auto, auto, auto, auto;
+  }
+  .sidebar-edge-glow {
+    box-shadow:
+      inset -1px 0 0 oklch(0.6 0.24 15 / 0.25),
+      4px 0 24px -8px oklch(0.55 0.22 20 / 0.45),
+      8px 0 40px -12px oklch(0.45 0.2 300 / 0.35);
   }
   .app-bg-art {
     background:
