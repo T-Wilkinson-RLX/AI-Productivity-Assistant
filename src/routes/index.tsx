@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -23,172 +22,81 @@ const stats = [
 ];
 
 function Dashboard() {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [activePage, setActivePage] = useState(0);
-  const [pageCount, setPageCount] = useState(1);
-
-  const getStep = () => {
-    const track = trackRef.current;
-    if (!track || track.children.length === 0) return 1;
-    const first = track.children[0] as HTMLElement;
-    const second = track.children[1] as HTMLElement | undefined;
-    if (second) return second.offsetLeft - first.offsetLeft;
-    return first.offsetWidth + 16;
-  };
-
-  const recalcPages = () => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const step = getStep();
-    const max = el.scrollWidth - el.clientWidth;
-    const pages = max <= 0 ? 1 : Math.ceil(max / step) + 1;
-    setPageCount(pages);
-  };
-
-  const scrollToIndex = (index: number) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const step = getStep();
-    const max = el.scrollWidth - el.clientWidth;
-    const clamped = Math.min(Math.max(index, 0), pageCount - 1);
-    const target = Math.min(Math.max(clamped * step, 0), max);
-    el.scrollTo({ left: target, behavior: "smooth" });
-    setActivePage(clamped);
-  };
-
-  const scrollByDir = (dir: 1 | -1) => {
-    scrollToIndex(activePage + dir);
-  };
-
-  useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    recalcPages();
-    const onScroll = () => {
-      const step = getStep();
-      setActivePage(Math.round(el.scrollLeft / step));
-    };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    const onResize = () => recalcPages();
-    window.addEventListener("resize", onResize);
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
-
   return (
     <div className="mx-auto max-w-6xl">
-      <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-5 shadow-elegant sm:p-6 md:p-8">
+      <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-8 shadow-elegant">
         <div className="absolute inset-0 -z-10 opacity-80"
           style={{ background: "var(--gradient-radial-purple), var(--gradient-radial-red)" }} />
-        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent sm:text-xs sm:tracking-[0.25em]">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-accent">
           <Sparkles className="h-3.5 w-3.5" /> AI Workplace Suite
         </div>
-        <h1 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl md:text-4xl lg:text-5xl">
+        <h1 className="mt-3 text-4xl font-bold leading-tight md:text-5xl">
           Automate your <span className="text-gradient-brand">workday</span> with AI.
         </h1>
-        <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
+        <p className="mt-3 max-w-2xl text-muted-foreground">
           Five focused tools to help you write, plan, summarize, and research faster — all in one
           professional dashboard.
         </p>
-        <div className="mt-5 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
-          <Link to="/email" className="inline-flex items-center gap-2 rounded-lg bg-gradient-brand px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 sm:px-5 sm:py-2.5">
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link to="/email" className="inline-flex items-center gap-2 rounded-lg bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90">
             Start with Email <ArrowRight className="h-4 w-4" />
           </Link>
-          <Link to="/chat" className="inline-flex items-center gap-2 rounded-lg border border-border bg-card/60 px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-card sm:px-5 sm:py-2.5">
+          <Link to="/chat" className="inline-flex items-center gap-2 rounded-lg border border-border bg-card/60 px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-card">
             Open AI Chatbot
           </Link>
         </div>
       </section>
 
-      <section className="mt-6 sm:mt-8">
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <section className="mt-8">
+        <div className="mb-4 flex items-end justify-between">
+          <div>
+            <h2 className="font-display text-xl font-semibold">Productivity impact</h2>
+            <p className="text-sm text-muted-foreground">How teams using the AI Workplace Suite are improving.</p>
+          </div>
+          <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Last 30 days</span>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
-            <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-3">
-              <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-gradient-gold opacity-10 blur-2xl" />
+            <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-5">
+              <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-gold opacity-10 blur-2xl" />
               <div className="flex items-center justify-between">
-                <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-gold text-background shadow-glow">
-                  <s.icon className="h-3.5 w-3.5" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-gold text-background shadow-glow">
+                  <s.icon className="h-4 w-4" />
                 </div>
-                <span className="rounded-full border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[10px] font-semibold text-accent">
+                <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent">
                   {s.delta}
                 </span>
               </div>
-              <div className="mt-2 text-xl font-bold tracking-tight text-gradient-gold">{s.value}</div>
-              <div className="text-xs font-medium text-foreground">{s.label}</div>
-              <div className="text-[11px] text-muted-foreground">{s.hint}</div>
+              <div className="mt-4 text-3xl font-bold tracking-tight text-gradient-gold">{s.value}</div>
+              <div className="mt-1 text-sm font-medium text-foreground">{s.label}</div>
+              <div className="text-xs text-muted-foreground">{s.hint}</div>
             </Card>
           ))}
         </div>
       </section>
 
-      <section className="mt-6 sm:mt-8">
-        <div className="mb-4 flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <h2 className="font-display text-lg font-semibold sm:text-xl">Productivity tools</h2>
-            <p className="hidden text-sm text-muted-foreground sm:block">Swipe or use the arrows to explore.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              aria-label="Previous tool"
-              onClick={() => scrollByDir(-1)}
-              disabled={activePage === 0}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:border-accent/60 hover:bg-card disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              aria-label="Next tool"
-              onClick={() => scrollByDir(1)}
-              disabled={activePage === pageCount - 1}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:border-accent/60 hover:bg-card disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-        <div ref={scrollerRef} className="-mx-2 overflow-x-auto pb-3 [scrollbar-width:thin] scroll-smooth">
-          <div ref={trackRef} className="flex snap-x snap-mandatory gap-4 px-2">
-            {tools.map((t) => (
-              <Link key={t.url} to={t.url} className="group snap-start shrink-0 w-[78vw] max-w-[300px] sm:w-[280px]">
-                <Card className="h-full border-border/60 bg-card/60 p-5 transition hover:border-accent/60 hover:shadow-glow">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-gold text-background">
-                    <t.icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="mt-4 font-display text-lg font-semibold">{t.title}</h3>
-                  <p className="mt-1.5 text-sm text-muted-foreground">{t.desc}</p>
-                  <div className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent opacity-0 transition group-hover:opacity-100">
-                    Open <ArrowRight className="h-4 w-4" />
-                  </div>
-                </Card>
-              </Link>
-            ))}
-            <Card className="snap-start shrink-0 w-[78vw] max-w-[300px] sm:w-[280px] border-border/60 bg-gradient-brand-soft p-5 text-white">
-              <h3 className="font-display text-lg font-semibold">Responsible AI</h3>
-              <p className="mt-2 text-sm text-white/85">
-                All outputs are generated by AI and may contain errors or omissions. Always review and
-                edit before sharing or acting on them, and avoid sharing confidential information.
-              </p>
+      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {tools.map((t) => (
+          <Link key={t.url} to={t.url} className="group">
+            <Card className="h-full border-border/60 bg-card/60 p-5 transition hover:border-accent/60 hover:shadow-glow">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-gold text-background">
+                <t.icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 font-display text-lg font-semibold">{t.title}</h3>
+              <p className="mt-1.5 text-sm text-muted-foreground">{t.desc}</p>
+              <div className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent opacity-0 transition group-hover:opacity-100">
+                Open <ArrowRight className="h-4 w-4" />
+              </div>
             </Card>
-          </div>
-        </div>
-        <div className="mt-3 flex justify-center gap-1.5">
-          {Array.from({ length: pageCount }).map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Go to slide ${i + 1}`}
-              onClick={() => scrollToIndex(i)}
-              className={`h-1.5 rounded-full transition-all ${
-                i === activePage ? "w-6 bg-gradient-gold shadow-glow" : "w-1.5 bg-border hover:bg-accent/60"
-              }`}
-            />
-          ))}
-        </div>
+          </Link>
+        ))}
+        <Card className="border-border/60 bg-gradient-brand-soft p-5 text-white">
+          <h3 className="font-display text-lg font-semibold">Responsible AI</h3>
+          <p className="mt-2 text-sm text-white/85">
+            All outputs are generated by AI and may contain errors or omissions. Always review and
+            edit before sharing or acting on them, and avoid sharing confidential information.
+          </p>
+        </Card>
       </section>
     </div>
   );
