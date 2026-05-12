@@ -25,20 +25,35 @@ const stats = [
 function Dashboard() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const totalPages = tools.length + 1;
   const [activePage, setActivePage] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
+
+  const getStep = () => {
+    const track = trackRef.current;
+    if (!track || track.children.length === 0) return 1;
+    const first = track.children[0] as HTMLElement;
+    const second = track.children[1] as HTMLElement | undefined;
+    if (second) return second.offsetLeft - first.offsetLeft;
+    return first.offsetWidth + 16;
+  };
+
+  const recalcPages = () => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const step = getStep();
+    const max = el.scrollWidth - el.clientWidth;
+    const pages = max <= 0 ? 1 : Math.ceil(max / step) + 1;
+    setPageCount(pages);
+  };
 
   const scrollToIndex = (index: number) => {
     const el = scrollerRef.current;
-    const track = trackRef.current;
-    if (!el || !track) return;
-    const clamped = Math.min(Math.max(index, 0), track.children.length - 1);
-    const child = track.children[clamped] as HTMLElement | undefined;
-    if (!child) return;
-    const childRect = child.getBoundingClientRect();
-    const scrollerRect = el.getBoundingClientRect();
-    const delta = childRect.left - scrollerRect.left;
-    el.scrollTo({ left: el.scrollLeft + delta, behavior: "smooth" });
+    if (!el) return;
+    const step = getStep();
+    const max = el.scrollWidth - el.clientWidth;
+    const clamped = Math.min(Math.max(index, 0), pageCount - 1);
+    const target = Math.min(Math.max(clamped * step, 0), max);
+    el.scrollTo({ left: target, behavior: "smooth" });
     setActivePage(clamped);
   };
 
@@ -48,22 +63,19 @@ function Dashboard() {
 
   useEffect(() => {
     const el = scrollerRef.current;
-    const track = trackRef.current;
-    if (!el || !track) return;
+    if (!el) return;
+    recalcPages();
     const onScroll = () => {
-      const children = Array.from(track.children) as HTMLElement[];
-      const scrollerRect = el.getBoundingClientRect();
-      const refX = scrollerRect.left + 8;
-      let closest = 0;
-      let min = Infinity;
-      children.forEach((c, i) => {
-        const d = Math.abs(c.getBoundingClientRect().left - refX);
-        if (d < min) { min = d; closest = i; }
-      });
-      setActivePage(closest);
+      const step = getStep();
+      setActivePage(Math.round(el.scrollLeft / step));
     };
     el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
+    const onResize = () => recalcPages();
+    window.addEventListener("resize", onResize);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   return (
