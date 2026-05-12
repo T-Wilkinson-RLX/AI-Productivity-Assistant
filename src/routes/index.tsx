@@ -23,6 +23,42 @@ const stats = [
 ];
 
 function Dashboard() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const totalPages = tools.length + 1; // tools + Responsible AI card
+  const [activePage, setActivePage] = useState(0);
+
+  const scrollToIndex = (index: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const child = el.children[index] as HTMLElement | undefined;
+    if (child) {
+      el.scrollTo({ left: child.offsetLeft - el.offsetLeft, behavior: "smooth" });
+    }
+  };
+
+  const scrollByDir = (dir: 1 | -1) => {
+    scrollToIndex(Math.min(Math.max(activePage + dir, 0), totalPages - 1));
+  };
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const children = Array.from(el.children) as HTMLElement[];
+      const center = el.scrollLeft + el.clientWidth / 2;
+      let closest = 0;
+      let min = Infinity;
+      children.forEach((c, i) => {
+        const cc = c.offsetLeft - el.offsetLeft + c.clientWidth / 2;
+        const d = Math.abs(cc - center);
+        if (d < min) { min = d; closest = i; }
+      });
+      setActivePage(closest);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <div className="mx-auto max-w-6xl">
       <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-8 shadow-elegant">
