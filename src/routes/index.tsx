@@ -80,31 +80,31 @@ function Dashboard() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-8 shadow-elegant">
+      <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-5 shadow-elegant sm:p-6 md:p-8">
         <div className="absolute inset-0 -z-10 opacity-80"
           style={{ background: "var(--gradient-radial-purple), var(--gradient-radial-red)" }} />
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent sm:text-xs sm:tracking-[0.25em]">
           <Sparkles className="h-3.5 w-3.5" /> AI Workplace Suite
         </div>
-        <h1 className="mt-3 text-4xl font-bold leading-tight md:text-5xl">
+        <h1 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl md:text-4xl lg:text-5xl">
           Automate your <span className="text-gradient-brand">workday</span> with AI.
         </h1>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
           Five focused tools to help you write, plan, summarize, and research faster — all in one
           professional dashboard.
         </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link to="/email" className="inline-flex items-center gap-2 rounded-lg bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90">
+        <div className="mt-5 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
+          <Link to="/email" className="inline-flex items-center gap-2 rounded-lg bg-gradient-brand px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 sm:px-5 sm:py-2.5">
             Start with Email <ArrowRight className="h-4 w-4" />
           </Link>
-          <Link to="/chat" className="inline-flex items-center gap-2 rounded-lg border border-border bg-card/60 px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-card">
+          <Link to="/chat" className="inline-flex items-center gap-2 rounded-lg border border-border bg-card/60 px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-card sm:px-5 sm:py-2.5">
             Open AI Chatbot
           </Link>
         </div>
       </section>
 
-      <section className="mt-8">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="mt-6 sm:mt-8">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {stats.map((s) => (
             <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-3">
               <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-gradient-gold opacity-10 blur-2xl" />
