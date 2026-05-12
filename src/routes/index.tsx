@@ -184,7 +184,7 @@ function Dashboard() {
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => scrollToIndex(i)}
               className={`h-1.5 rounded-full transition-all ${
-                i === activePage ? "w-6 bg-gradient-gold" : "w-1.5 bg-border hover:bg-muted-foreground/60"
+                i === activePage ? "w-6 bg-gradient-gold shadow-glow" : "w-1.5 bg-border hover:bg-accent/60"
               }`}
             />
           ))}
