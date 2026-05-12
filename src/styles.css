@@ -141,30 +141,30 @@
   .sidebar-bg-art {
     background:
       /* dot grid pattern */
-      radial-gradient(oklch(0.95 0.003 80 / 0.05) 1px, transparent 1px),
+      radial-gradient(oklch(0.98 0.003 80 / 0.05) 1px, transparent 1px),
       /* diagonal line pattern */
       repeating-linear-gradient(
         135deg,
-        oklch(0.95 0.003 80 / 0.025) 0px,
-        oklch(0.95 0.003 80 / 0.025) 1px,
+        oklch(0.98 0.003 80 / 0.025) 0px,
+        oklch(0.98 0.003 80 / 0.025) 1px,
         transparent 1px,
         transparent 14px
       ),
-      radial-gradient(circle at 15% 10%, oklch(0.32 0.003 80 / 0.7), transparent 60%),
-      radial-gradient(circle at 90% 85%, oklch(0.22 0.003 80 / 0.7), transparent 60%),
-      linear-gradient(160deg, oklch(0.22 0.003 80) 0%, oklch(0.13 0.003 80) 100%);
+      radial-gradient(circle at 15% 10%, oklch(0.36 0.004 80 / 0.7), transparent 60%),
+      radial-gradient(circle at 90% 85%, oklch(0.3 0.004 80 / 0.7), transparent 60%),
+      linear-gradient(160deg, oklch(0.3 0.003 80) 0%, oklch(0.22 0.003 80) 60%, oklch(0.26 0.003 80) 100%);
     background-size: 18px 18px, auto, auto, auto, auto;
   }
   .sidebar-edge-glow {
     box-shadow:
-      inset -1px 0 0 oklch(0.95 0.003 80 / 0.08),
-      4px 0 24px -8px oklch(0 0 0 / 0.55),
-      8px 0 40px -12px oklch(0 0 0 / 0.4);
+      inset -1px 0 0 oklch(0.98 0.003 80 / 0.08),
+      4px 0 24px -8px oklch(0 0 0 / 0.4),
+      8px 0 40px -12px oklch(0 0 0 / 0.25);
   }
   .app-bg-art {
     background:
-      radial-gradient(ellipse at 90% -10%, oklch(0.3 0.003 80) 0%, transparent 55%),
-      radial-gradient(ellipse at -10% 110%, oklch(0.26 0.003 80) 0%, transparent 55%),
-      linear-gradient(160deg, oklch(0.22 0.003 80) 0%, oklch(0.14 0.003 80) 60%, oklch(0.18 0.003 80) 100%);
+      radial-gradient(ellipse at 90% -10%, oklch(0.36 0.004 80) 0%, transparent 55%),
+      radial-gradient(ellipse at -10% 110%, oklch(0.3 0.004 80) 0%, transparent 55%),
+      linear-gradient(160deg, oklch(0.3 0.003 80) 0%, oklch(0.22 0.003 80) 60%, oklch(0.26 0.003 80) 100%);
   }
 }
