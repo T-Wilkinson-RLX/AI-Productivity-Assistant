@@ -55,27 +55,32 @@ function Dashboard() {
           </div>
           <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Last 30 days</span>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
-            <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-5">
-              <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-gold opacity-10 blur-2xl" />
+            <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-3">
+              <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-gradient-gold opacity-10 blur-2xl" />
               <div className="flex items-center justify-between">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-gold text-background shadow-glow">
-                  <s.icon className="h-4 w-4" />
+                <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-gold text-background shadow-glow">
+                  <s.icon className="h-3.5 w-3.5" />
                 </div>
-                <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent">
+                <span className="rounded-full border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[10px] font-semibold text-accent">
                   {s.delta}
                 </span>
               </div>
-              <div className="mt-4 text-3xl font-bold tracking-tight text-gradient-gold">{s.value}</div>
-              <div className="mt-1 text-sm font-medium text-foreground">{s.label}</div>
-              <div className="text-xs text-muted-foreground">{s.hint}</div>
+              <div className="mt-2 text-xl font-bold tracking-tight text-gradient-gold">{s.value}</div>
+              <div className="text-xs font-medium text-foreground">{s.label}</div>
+              <div className="text-[11px] text-muted-foreground">{s.hint}</div>
             </Card>
           ))}
         </div>
       </section>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="mt-8">
+        <div className="mb-4">
+          <h2 className="font-display text-xl font-semibold">Productivity tools</h2>
+          <p className="text-sm text-muted-foreground">Pick a tool to start automating your workflow.</p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((t) => (
           <Link key={t.url} to={t.url} className="group">
             <Card className="h-full border-border/60 bg-card/60 p-5 transition hover:border-accent/60 hover:shadow-glow">
