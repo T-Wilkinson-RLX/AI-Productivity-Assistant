@@ -119,7 +119,6 @@
     letter-spacing: -0.02em;
   }
 }
-}
 
 @layer utilities {
   .bg-gradient-brand { background-image: var(--gradient-brand); }
