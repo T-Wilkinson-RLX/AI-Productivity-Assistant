@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 export const Route = createFileRoute("/")({
@@ -12,6 +12,13 @@ const tools = [
   { title: "AI Task Planner", desc: "Build prioritized daily and weekly schedules from your task list.", url: "/tasks", icon: CalendarCheck },
   { title: "AI Research Assistant", desc: "Summarize topics or articles and surface insights and recommendations.", url: "/research", icon: BookOpen },
   { title: "AI Chatbot", desc: "Your interactive workplace assistant for any quick question.", url: "/chat", icon: MessageSquare },
+];
+
+const stats = [
+  { label: "Hours saved per week", value: "12.4", delta: "+38%", icon: Clock, hint: "vs. manual workflows" },
+  { label: "Tasks automated", value: "1,284", delta: "+22%", icon: Zap, hint: "this month" },
+  { label: "Faster email drafting", value: "5.7×", delta: "+470%", icon: TrendingUp, hint: "avg. across teams" },
+  { label: "Meeting follow-ups closed", value: "96%", delta: "+14%", icon: CheckCircle2, hint: "within 24h" },
 ];
 
 function Dashboard() {
@@ -40,11 +47,39 @@ function Dashboard() {
         </div>
       </section>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="mt-8">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((s) => (
+            <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-5">
+              <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-gold opacity-10 blur-2xl" />
+              <div className="flex items-center justify-between">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-gold text-background shadow-glow">
+                  <s.icon className="h-4 w-4" />
+                </div>
+                <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent">
+                  {s.delta}
+                </span>
+              </div>
+              <div className="mt-4 text-3xl font-bold tracking-tight text-gradient-gold">{s.value}</div>
+              <div className="mt-1 text-sm font-medium text-foreground">{s.label}</div>
+              <div className="text-xs text-muted-foreground">{s.hint}</div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-8">
+        <div className="mb-4 flex items-end justify-between">
+          <div>
+            <h2 className="font-display text-xl font-semibold">Productivity tools</h2>
+            <p className="text-sm text-muted-foreground">Pick a tool to start automating your workflow.</p>
+          </div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((t) => (
           <Link key={t.url} to={t.url} className="group">
             <Card className="h-full border-border/60 bg-card/60 p-5 transition hover:border-accent/60 hover:shadow-glow">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-brand-soft text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-gold text-background">
                 <t.icon className="h-5 w-5" />
               </div>
               <h3 className="mt-4 font-display text-lg font-semibold">{t.title}</h3>
@@ -62,6 +97,7 @@ function Dashboard() {
             edit before sharing or acting on them, and avoid sharing confidential information.
           </p>
         </Card>
+        </div>
       </section>
     </div>
   );
