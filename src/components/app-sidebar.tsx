@@ -37,7 +37,7 @@ export function AppSidebar() {
   const path = useRouterState({ select: (r) => r.location.pathname });
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-sidebar-border">
+    <Sidebar collapsible="icon" className="border-r border-sidebar-border sidebar-edge-glow relative overflow-hidden">
       <div className="sidebar-bg-art absolute inset-0 -z-10" />
       <SidebarHeader className="px-3 py-4">
         <Link to="/" className="flex items-center gap-2">
