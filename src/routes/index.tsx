@@ -25,20 +25,35 @@ const stats = [
 function Dashboard() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const totalPages = tools.length + 1;
   const [activePage, setActivePage] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
+
+  const getStep = () => {
+    const track = trackRef.current;
+    if (!track || track.children.length === 0) return 1;
+    const first = track.children[0] as HTMLElement;
+    const second = track.children[1] as HTMLElement | undefined;
+    if (second) return second.offsetLeft - first.offsetLeft;
+    return first.offsetWidth + 16;
+  };
+
+  const recalcPages = () => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const step = getStep();
+    const max = el.scrollWidth - el.clientWidth;
+    const pages = max <= 0 ? 1 : Math.ceil(max / step) + 1;
+    setPageCount(pages);
+  };
 
   const scrollToIndex = (index: number) => {
     const el = scrollerRef.current;
-    const track = trackRef.current;
-    if (!el || !track) return;
-    const clamped = Math.min(Math.max(index, 0), track.children.length - 1);
-    const child = track.children[clamped] as HTMLElement | undefined;
-    if (!child) return;
-    const childRect = child.getBoundingClientRect();
-    const scrollerRect = el.getBoundingClientRect();
-    const delta = childRect.left - scrollerRect.left;
-    el.scrollTo({ left: el.scrollLeft + delta, behavior: "smooth" });
+    if (!el) return;
+    const step = getStep();
+    const max = el.scrollWidth - el.clientWidth;
+    const clamped = Math.min(Math.max(index, 0), pageCount - 1);
+    const target = Math.min(Math.max(clamped * step, 0), max);
+    el.scrollTo({ left: target, behavior: "smooth" });
     setActivePage(clamped);
   };
 
@@ -48,22 +63,19 @@ function Dashboard() {
 
   useEffect(() => {
     const el = scrollerRef.current;
-    const track = trackRef.current;
-    if (!el || !track) return;
+    if (!el) return;
+    recalcPages();
     const onScroll = () => {
-      const children = Array.from(track.children) as HTMLElement[];
-      const scrollerRect = el.getBoundingClientRect();
-      const refX = scrollerRect.left + 8;
-      let closest = 0;
-      let min = Infinity;
-      children.forEach((c, i) => {
-        const d = Math.abs(c.getBoundingClientRect().left - refX);
-        if (d < min) { min = d; closest = i; }
-      });
-      setActivePage(closest);
+      const step = getStep();
+      setActivePage(Math.round(el.scrollLeft / step));
     };
     el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
+    const onResize = () => recalcPages();
+    window.addEventListener("resize", onResize);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   return (
@@ -132,7 +144,7 @@ function Dashboard() {
               type="button"
               aria-label="Next tool"
               onClick={() => scrollByDir(1)}
-              disabled={activePage === totalPages - 1}
+              disabled={activePage === pageCount - 1}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground transition hover:border-accent/60 hover:bg-card disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronRight className="h-4 w-4" />
@@ -165,14 +177,14 @@ function Dashboard() {
           </div>
         </div>
         <div className="mt-3 flex justify-center gap-1.5">
-          {Array.from({ length: totalPages }).map((_, i) => (
+          {Array.from({ length: pageCount }).map((_, i) => (
             <button
               key={i}
               type="button"
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => scrollToIndex(i)}
               className={`h-1.5 rounded-full transition-all ${
-                i === activePage ? "w-6 bg-gradient-gold" : "w-1.5 bg-border hover:bg-muted-foreground/60"
+                i === activePage ? "w-6 bg-gradient-gold shadow-glow" : "w-1.5 bg-border hover:bg-accent/60"
               }`}
             />
           ))}
