@@ -24,15 +24,17 @@ const stats = [
 
 function Dashboard() {
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const totalPages = tools.length + 1; // tools + Responsible AI card
+  const trackRef = useRef<HTMLDivElement>(null);
+  const totalPages = tools.length + 1;
   const [activePage, setActivePage] = useState(0);
 
   const scrollToIndex = (index: number) => {
     const el = scrollerRef.current;
-    if (!el) return;
-    const child = el.children[index] as HTMLElement | undefined;
+    const track = trackRef.current;
+    if (!el || !track) return;
+    const child = track.children[index] as HTMLElement | undefined;
     if (child) {
-      el.scrollTo({ left: child.offsetLeft - el.offsetLeft, behavior: "smooth" });
+      el.scrollTo({ left: child.offsetLeft - track.offsetLeft, behavior: "smooth" });
     }
   };
 
@@ -42,14 +44,15 @@ function Dashboard() {
 
   useEffect(() => {
     const el = scrollerRef.current;
-    if (!el) return;
+    const track = trackRef.current;
+    if (!el || !track) return;
     const onScroll = () => {
-      const children = Array.from(el.children) as HTMLElement[];
+      const children = Array.from(track.children) as HTMLElement[];
       const center = el.scrollLeft + el.clientWidth / 2;
       let closest = 0;
       let min = Infinity;
       children.forEach((c, i) => {
-        const cc = c.offsetLeft - el.offsetLeft + c.clientWidth / 2;
+        const cc = (c.offsetLeft - track.offsetLeft) + c.clientWidth / 2;
         const d = Math.abs(cc - center);
         if (d < min) { min = d; closest = i; }
       });
@@ -133,7 +136,7 @@ function Dashboard() {
           </div>
         </div>
         <div ref={scrollerRef} className="-mx-2 overflow-x-auto pb-3 [scrollbar-width:thin] scroll-smooth">
-          <div className="flex snap-x snap-mandatory gap-4 px-2">
+          <div ref={trackRef} className="flex snap-x snap-mandatory gap-4 px-2">
             {tools.map((t) => (
               <Link key={t.url} to={t.url} className="group snap-start shrink-0 w-[260px] sm:w-[280px]">
                 <Card className="h-full border-border/60 bg-card/60 p-5 transition hover:border-accent/60 hover:shadow-glow">
