@@ -102,6 +102,7 @@ function Dashboard() {
             edit before sharing or acting on them, and avoid sharing confidential information.
           </p>
         </Card>
+        </div>
       </section>
     </div>
   );
