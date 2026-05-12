@@ -43,15 +43,15 @@
 :root {
   --radius: 0.75rem;
 
-  /* Unified gray base */
-  --background: oklch(0.22 0.004 250);
+  /* Main background = black */
+  --background: oklch(0.05 0 0);
   --foreground: oklch(0.98 0.003 80);
 
-  /* Surface lighter dark gray */
-  --card: oklch(0.23 0.003 80);
+  /* Surface lighter gray (cards/dashboard windows) */
+  --card: oklch(0.32 0.004 250);
   --card-foreground: oklch(0.98 0.003 80);
 
-  --popover: oklch(0.23 0.003 80);
+  --popover: oklch(0.32 0.004 250);
   --popover-foreground: oklch(0.98 0.003 80);
 
   /* Primary = gold */
