@@ -136,7 +136,7 @@ function Dashboard() {
           </div>
         </div>
         <div ref={scrollerRef} className="-mx-2 overflow-x-auto pb-3 [scrollbar-width:thin] scroll-smooth">
-          <div className="flex snap-x snap-mandatory gap-4 px-2">
+          <div ref={trackRef} className="flex snap-x snap-mandatory gap-4 px-2">
             {tools.map((t) => (
               <Link key={t.url} to={t.url} className="group snap-start shrink-0 w-[260px] sm:w-[280px]">
                 <Card className="h-full border-border/60 bg-card/60 p-5 transition hover:border-accent/60 hover:shadow-glow">
