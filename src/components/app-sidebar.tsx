@@ -6,7 +6,7 @@ import {
   CalendarCheck,
   BookOpen,
   MessageSquare,
-  Sparkles,
+  BrainCircuit,
 } from "lucide-react";
 import {
   Sidebar,
@@ -42,12 +42,12 @@ export function AppSidebar() {
       <SidebarHeader className="px-3 py-4">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-brand shadow-glow">
-            <Sparkles className="h-5 w-5 text-white" />
+            <BrainCircuit className="h-5 w-5 text-white" />
           </div>
           {!collapsed && (
             <div className="flex flex-col leading-tight">
               <span className="font-display text-sm font-semibold text-sidebar-foreground">
-                Workplace AI
+                WorkAI
               </span>
               <span className="text-[10px] uppercase tracking-widest text-sidebar-foreground/60">
                 Productivity Suite
