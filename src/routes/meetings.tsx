@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { PageHeader, AIDisclaimer } from "@/components/page-header";
+import { StructuredOutput } from "@/components/structured-output";
 import { callAI } from "@/lib/ai-client";
 
 export const Route = createFileRoute("/meetings")({
