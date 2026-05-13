@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/page-header";
+import { MarkdownView } from "@/components/markdown-view";
 import { callAI } from "@/lib/ai-client";
 
 export const Route = createFileRoute("/chat")({
