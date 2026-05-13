@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/page-header";
+import { MarkdownView } from "@/components/markdown-view";
 import { callAI } from "@/lib/ai-client";
 
 export const Route = createFileRoute("/chat")({
@@ -63,7 +64,13 @@ function Chat() {
                     : "max-w-[80%] rounded-2xl rounded-bl-sm border border-border/60 bg-secondary px-4 py-2.5 text-sm text-foreground"
                 }
               >
-                <div className="whitespace-pre-wrap">{m.content}</div>
+                {m.role === "assistant" ? (
+                  <div className="[&>div]:border-0 [&>div]:bg-transparent [&>div]:p-0">
+                    <MarkdownView content={m.content} />
+                  </div>
+                ) : (
+                  <div className="whitespace-pre-wrap">{m.content}</div>
+                )}
               </div>
             </div>
           ))}

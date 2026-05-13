@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { PageHeader, AIDisclaimer } from "@/components/page-header";
+import { StructuredOutput } from "@/components/structured-output";
 import { callAI } from "@/lib/ai-client";
 
 export const Route = createFileRoute("/tasks")({
@@ -76,11 +77,10 @@ function TaskPlanner() {
               </Button>
             )}
           </div>
-          <Textarea
-            className="min-h-[360px] font-mono text-sm"
-            placeholder="Your prioritized plan will appear here..."
+          <StructuredOutput
             value={output}
-            onChange={(e) => setOutput(e.target.value)}
+            onChange={setOutput}
+            placeholder="Your prioritized plan will appear here..."
           />
           <AIDisclaimer />
         </Card>
