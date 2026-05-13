@@ -64,11 +64,10 @@ function Research() {
               </Button>
             )}
           </div>
-          <Textarea
-            className="min-h-[360px] font-mono text-sm"
-            placeholder="A structured research brief will appear here..."
+          <StructuredOutput
             value={output}
-            onChange={(e) => setOutput(e.target.value)}
+            onChange={setOutput}
+            placeholder="A structured research brief will appear here..."
           />
           <AIDisclaimer />
         </Card>
