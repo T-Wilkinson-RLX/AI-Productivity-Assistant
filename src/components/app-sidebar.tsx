@@ -6,7 +6,7 @@ import {
   CalendarCheck,
   BookOpen,
   MessageSquare,
-  BrainCircuit,
+  Cpu,
 } from "lucide-react";
 import {
   Sidebar,
@@ -42,7 +42,7 @@ export function AppSidebar() {
       <SidebarHeader className="px-3 py-4">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-brand shadow-glow">
-            <BrainCircuit className="h-5 w-5 text-white" />
+            <Cpu className="h-5 w-5 text-white" />
           </div>
           {!collapsed && (
             <div className="flex flex-col leading-tight">
