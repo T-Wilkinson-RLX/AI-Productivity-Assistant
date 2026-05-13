@@ -64,11 +64,10 @@ function MeetingNotes() {
               </Button>
             )}
           </div>
-          <Textarea
-            className="min-h-[360px] font-mono text-sm"
-            placeholder="Summary, decisions, action items and deadlines will appear here..."
+          <StructuredOutput
             value={output}
-            onChange={(e) => setOutput(e.target.value)}
+            onChange={setOutput}
+            placeholder="Summary, decisions, action items and deadlines will appear here..."
           />
           <AIDisclaimer />
         </Card>
