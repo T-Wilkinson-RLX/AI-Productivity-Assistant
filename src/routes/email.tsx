@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { PageHeader, AIDisclaimer } from "@/components/page-header";
+import { StructuredOutput } from "@/components/structured-output";
 import { callAI } from "@/lib/ai-client";
 
 export const Route = createFileRoute("/email")({
