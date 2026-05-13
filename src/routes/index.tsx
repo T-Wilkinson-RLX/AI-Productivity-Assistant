@@ -24,9 +24,9 @@ const stats = [
 function Dashboard() {
   return (
     <div className="mx-auto max-w-6xl">
-      <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-8 shadow-elegant">
-        <div className="absolute inset-0 -z-10 opacity-80"
-          style={{ background: "var(--gradient-radial-purple), var(--gradient-radial-red)" }} />
+      <section className="relative overflow-hidden rounded-2xl border border-primary/20 bg-card/40 p-8 shadow-elegant">
+        <div className="absolute inset-0 -z-10"
+          style={{ background: "linear-gradient(135deg, oklch(0.78 0.16 85 / 0.18) 0%, oklch(0.92 0.08 90 / 0.10) 50%, transparent 100%), var(--gradient-radial-purple), var(--gradient-radial-red)" }} />
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-accent">
           <Sparkles className="h-3.5 w-3.5" /> AI Workplace Suite
         </div>
