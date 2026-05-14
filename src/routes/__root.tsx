@@ -119,6 +119,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -134,8 +135,10 @@ function RootComponent() {
                 <span>Productivity Suite</span>
               </div>
             </header>
-            <main className="flex-1 p-6 md:p-8">
-              <Outlet />
+            <main className="flex-1 overflow-x-hidden p-6 md:p-8">
+              <div key={pathname} className="route-transition">
+                <Outlet />
+              </div>
             </main>
           </div>
         </div>
