@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2 } from "lucide-react";
+import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2, RotateCcw } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useUsageStats, resetUsage } from "@/lib/usage-stats";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -14,19 +15,45 @@ const tools = [
   { title: "AI Chatbot", desc: "Your interactive workplace assistant for any quick question.", url: "/chat", icon: MessageSquare },
 ];
 
-const stats = [
-  { label: "Hours saved per week", value: "12.4", delta: "+38%", icon: Clock, hint: "vs. manual workflows" },
-  { label: "Tasks automated", value: "1,284", delta: "+22%", icon: Zap, hint: "this month" },
-  { label: "Faster email drafting", value: "5.7×", delta: "+470%", icon: TrendingUp, hint: "avg. across teams" },
-  { label: "Meeting follow-ups closed", value: "96%", delta: "+14%", icon: CheckCircle2, hint: "within 24h" },
-];
+function formatMinutes(mins: number): { value: string; hint: string } {
+  if (mins < 60) return { value: `${Math.round(mins)}m`, hint: "estimated time saved" };
+  const hours = mins / 60;
+  if (hours < 10) return { value: `${hours.toFixed(1)}h`, hint: "estimated time saved" };
+  return { value: `${Math.round(hours)}h`, hint: "estimated time saved" };
+}
+
+function formatChars(n: number): string {
+  if (n < 1000) return `${n}`;
+  if (n < 1_000_000) return `${(n / 1000).toFixed(1)}k`;
+  return `${(n / 1_000_000).toFixed(1)}M`;
+}
+
+function relativeTime(ts: number | null): string {
+  if (!ts) return "—";
+  const diff = Date.now() - ts;
+  if (diff < 60_000) return "just now";
+  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)}m ago`;
+  if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)}h ago`;
+  return `${Math.floor(diff / 86_400_000)}d ago`;
+}
 
 function Dashboard() {
+  const usage = useUsageStats();
+  const time = formatMinutes(usage.minutesSaved);
+  const stats = [
+    { label: "Time saved", value: time.value, delta: usage.totalRuns > 0 ? "live" : "—", icon: Clock, hint: time.hint },
+    { label: "AI runs", value: `${usage.totalRuns}`, delta: usage.lastUsedAt ? relativeTime(usage.lastUsedAt) : "—", icon: Zap, hint: "across all tools" },
+    { label: "Words generated", value: formatChars(Math.round(usage.charsGenerated / 5)), delta: usage.charsGenerated > 0 ? "live" : "—", icon: TrendingUp, hint: "by the assistant" },
+    { label: "Active streak", value: `${usage.streakDays}d`, delta: usage.streakDays > 0 ? "🔥" : "—", icon: CheckCircle2, hint: "consecutive days" },
+  ];
+  const topTool = (Object.entries(usage.byTool) as [string, number][])
+    .sort((a, b) => b[1] - a[1])[0];
+
   return (
     <div className="mx-auto max-w-6xl">
-      <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-8 shadow-elegant">
-        <div className="absolute inset-0 -z-10 opacity-80"
-          style={{ background: "var(--gradient-radial-purple), var(--gradient-radial-red)" }} />
+      <section className="relative overflow-hidden rounded-2xl border border-primary/20 bg-card/40 p-8 shadow-elegant">
+        <div className="absolute inset-0 -z-10"
+          style={{ background: "linear-gradient(135deg, oklch(0.78 0.16 85 / 0.18) 0%, oklch(0.92 0.08 90 / 0.10) 50%, transparent 100%), var(--gradient-radial-purple), var(--gradient-radial-red)" }} />
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-accent">
           <Sparkles className="h-3.5 w-3.5" /> AI Workplace Suite
         </div>
@@ -48,6 +75,29 @@ function Dashboard() {
       </section>
 
       <section className="mt-8">
+        <div className="mb-3 flex items-end justify-between">
+          <div>
+            <h2 className="font-display text-sm font-semibold text-muted-foreground">
+              Your productivity{" "}
+              <span className="ml-1 inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" /> live
+              </span>
+            </h2>
+            {topTool && topTool[1] > 0 && (
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                Most used: <span className="font-medium text-foreground capitalize">{topTool[0]}</span> · {topTool[1]} runs
+              </p>
+            )}
+          </div>
+          {usage.totalRuns > 0 && (
+            <button
+              onClick={() => resetUsage()}
+              className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-card/60 px-2 py-1 text-[11px] text-muted-foreground transition hover:text-foreground"
+            >
+              <RotateCcw className="h-3 w-3" /> Reset
+            </button>
+          )}
+        </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
             <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-3">
@@ -66,6 +116,11 @@ function Dashboard() {
             </Card>
           ))}
         </div>
+        {usage.totalRuns === 0 && (
+          <p className="mt-3 text-center text-xs text-muted-foreground">
+            Stats update in real time as you use the tools below.
+          </p>
+        )}
       </section>
 
       <section className="mt-8">

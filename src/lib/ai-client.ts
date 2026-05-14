@@ -1,3 +1,5 @@
+import { recordUsage, type ToolKey } from "./usage-stats";
+
 export async function callAI(params: {
   tool: "email" | "meeting" | "tasks" | "research" | "chat";
   prompt?: string;
@@ -18,5 +20,14 @@ export async function callAI(params: {
     throw new Error(msg);
   }
   const data = await res.json();
-  return data.content as string;
+  const content = data.content as string;
+  const inputChars =
+    (params.prompt?.length ?? 0) +
+    (params.messages?.reduce((sum, m) => sum + m.content.length, 0) ?? 0);
+  // Normalize "meeting"/"meetings" tool key.
+  const toolKey = (params.tool === "meeting" ? "meeting" : params.tool) as ToolKey;
+  try {
+    recordUsage(toolKey, inputChars, content?.length ?? 0);
+  } catch {}
+  return content;
 }

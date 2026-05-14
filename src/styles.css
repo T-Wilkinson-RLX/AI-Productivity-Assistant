@@ -150,9 +150,9 @@
   }
   .sidebar-edge-glow {
     box-shadow:
-      inset -1px 0 0 oklch(0.78 0.16 85 / 0.25),
-      4px 0 24px -8px oklch(0.78 0.16 85 / 0.35),
-      8px 0 40px -12px oklch(0.92 0.08 90 / 0.2);
+      inset -1px 0 0 oklch(0.78 0.16 85 / 0.4),
+      6px 0 32px -6px oklch(0.78 0.16 85 / 0.55),
+      12px 0 56px -10px oklch(0.92 0.08 90 / 0.35);
   }
   .app-bg-art {
     background:

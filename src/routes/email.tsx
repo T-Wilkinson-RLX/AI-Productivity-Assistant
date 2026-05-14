@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { PageHeader, AIDisclaimer } from "@/components/page-header";
+import { StructuredOutput } from "@/components/structured-output";
 import { callAI } from "@/lib/ai-client";
 
 export const Route = createFileRoute("/email")({
@@ -87,11 +88,11 @@ function EmailGenerator() {
               </Button>
             )}
           </div>
-          <Textarea
-            className="min-h-[340px] font-mono text-sm"
-            placeholder="Your generated email will appear here..."
+          <StructuredOutput
             value={output}
-            onChange={(e) => setOutput(e.target.value)}
+            onChange={setOutput}
+            minHeight="340px"
+            placeholder="Your generated email will appear here..."
           />
           <AIDisclaimer />
         </Card>
