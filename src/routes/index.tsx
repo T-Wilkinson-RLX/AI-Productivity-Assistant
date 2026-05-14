@@ -38,6 +38,17 @@ function relativeTime(ts: number | null): string {
 }
 
 function Dashboard() {
+  const usage = useUsageStats();
+  const time = formatMinutes(usage.minutesSaved);
+  const stats = [
+    { label: "Time saved", value: time.value, delta: usage.totalRuns > 0 ? "live" : "—", icon: Clock, hint: time.hint },
+    { label: "AI runs", value: `${usage.totalRuns}`, delta: usage.lastUsedAt ? relativeTime(usage.lastUsedAt) : "—", icon: Zap, hint: "across all tools" },
+    { label: "Words generated", value: formatChars(Math.round(usage.charsGenerated / 5)), delta: usage.charsGenerated > 0 ? "live" : "—", icon: TrendingUp, hint: "by the assistant" },
+    { label: "Active streak", value: `${usage.streakDays}d`, delta: usage.streakDays > 0 ? "🔥" : "—", icon: CheckCircle2, hint: "consecutive days" },
+  ];
+  const topTool = (Object.entries(usage.byTool) as [string, number][])
+    .sort((a, b) => b[1] - a[1])[0];
+
   return (
     <div className="mx-auto max-w-6xl">
       <section className="relative overflow-hidden rounded-2xl border border-primary/20 bg-card/40 p-8 shadow-elegant">
@@ -64,6 +75,29 @@ function Dashboard() {
       </section>
 
       <section className="mt-8">
+        <div className="mb-3 flex items-end justify-between">
+          <div>
+            <h2 className="font-display text-sm font-semibold text-muted-foreground">
+              Your productivity{" "}
+              <span className="ml-1 inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" /> live
+              </span>
+            </h2>
+            {topTool && topTool[1] > 0 && (
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                Most used: <span className="font-medium text-foreground capitalize">{topTool[0]}</span> · {topTool[1]} runs
+              </p>
+            )}
+          </div>
+          {usage.totalRuns > 0 && (
+            <button
+              onClick={() => resetUsage()}
+              className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-card/60 px-2 py-1 text-[11px] text-muted-foreground transition hover:text-foreground"
+            >
+              <RotateCcw className="h-3 w-3" /> Reset
+            </button>
+          )}
+        </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
             <Card key={s.label} className="relative overflow-hidden border-border/60 bg-card/60 p-3">
@@ -82,6 +116,11 @@ function Dashboard() {
             </Card>
           ))}
         </div>
+        {usage.totalRuns === 0 && (
+          <p className="mt-3 text-center text-xs text-muted-foreground">
+            Stats update in real time as you use the tools below.
+          </p>
+        )}
       </section>
 
       <section className="mt-8">
