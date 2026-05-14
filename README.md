@@ -24,6 +24,7 @@ In today’s digital economy, organizations are rapidly adopting Artificial Inte
 The assistant was built and deployed using a stack of modern AI and collaboration tools:
 * **Lovable.ai:** Used for rapid application development and building the interactive interface.
 * **Microsoft Teams:** Serves as the collaborative environment for communicating with the team.
+* **Github:** Platform to store, manage, and track changes to my code while enabling seamless collaboration.
 
 ---
 
