@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2 } from "lucide-react";
+import { Mail, FileText, CalendarCheck, BookOpen, MessageSquare, ArrowRight, Sparkles, Clock, TrendingUp, Zap, CheckCircle2, RotateCcw } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useUsageStats, resetUsage } from "@/lib/usage-stats";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -14,12 +15,27 @@ const tools = [
   { title: "AI Chatbot", desc: "Your interactive workplace assistant for any quick question.", url: "/chat", icon: MessageSquare },
 ];
 
-const stats = [
-  { label: "Hours saved per week", value: "12.4", delta: "+38%", icon: Clock, hint: "vs. manual workflows" },
-  { label: "Tasks automated", value: "1,284", delta: "+22%", icon: Zap, hint: "this month" },
-  { label: "Faster email drafting", value: "5.7×", delta: "+470%", icon: TrendingUp, hint: "avg. across teams" },
-  { label: "Meeting follow-ups closed", value: "96%", delta: "+14%", icon: CheckCircle2, hint: "within 24h" },
-];
+function formatMinutes(mins: number): { value: string; hint: string } {
+  if (mins < 60) return { value: `${Math.round(mins)}m`, hint: "estimated time saved" };
+  const hours = mins / 60;
+  if (hours < 10) return { value: `${hours.toFixed(1)}h`, hint: "estimated time saved" };
+  return { value: `${Math.round(hours)}h`, hint: "estimated time saved" };
+}
+
+function formatChars(n: number): string {
+  if (n < 1000) return `${n}`;
+  if (n < 1_000_000) return `${(n / 1000).toFixed(1)}k`;
+  return `${(n / 1_000_000).toFixed(1)}M`;
+}
+
+function relativeTime(ts: number | null): string {
+  if (!ts) return "—";
+  const diff = Date.now() - ts;
+  if (diff < 60_000) return "just now";
+  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)}m ago`;
+  if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)}h ago`;
+  return `${Math.floor(diff / 86_400_000)}d ago`;
+}
 
 function Dashboard() {
   return (
