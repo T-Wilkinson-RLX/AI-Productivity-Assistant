@@ -4,7 +4,6 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -80,9 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "AI-powered workplace productivity assistant: emails, meeting notes, planning, research, and chat." },
       { name: "author", content: "Workplace AI" },
       { property: "og:title", content: "Workplace AI — Productivity Suite" },
-      { property: "og:description", content: "AI-powered workplace productivity assistant for professionals." },
+      { property: "og:description", content: "AI-powered workplace productivity assistant: emails, meeting notes, planning, research, and chat." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Workplace AI — Productivity Suite" },
+      { name: "twitter:description", content: "AI-powered workplace productivity assistant: emails, meeting notes, planning, research, and chat." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/32a22282-2b30-4127-a0e8-e7581c710d3e/id-preview-3ede7173--14814a9a-7c4c-4d5a-b8e2-e25bce453289.lovable.app-1778740309025.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/32a22282-2b30-4127-a0e8-e7581c710d3e/id-preview-3ede7173--14814a9a-7c4c-4d5a-b8e2-e25bce453289.lovable.app-1778740309025.png" },
     ],
     links: [
       {
@@ -119,7 +122,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -135,10 +137,8 @@ function RootComponent() {
                 <span>Productivity Suite</span>
               </div>
             </header>
-            <main className="flex-1 overflow-x-hidden p-6 md:p-8">
-              <div key={pathname} className="route-transition">
-                <Outlet />
-              </div>
+            <main className="flex-1 p-6 md:p-8">
+              <Outlet />
             </main>
           </div>
         </div>
